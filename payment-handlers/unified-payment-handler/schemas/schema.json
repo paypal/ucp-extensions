@@ -1,0 +1,108 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://payments.paypal.com/ucp/payment-handlers/2026-09-09/schema.json",
+  "title": "PayPal Unified Payments Handler",
+  "description": "Schema for the com.paypal.payments payment handler shared by Braintree and PPCP merchants.",
+  "name": "com.paypal.payments",
+  "version": "2026-09-09",
+  "spec": "https://payments.paypal.com/ucp/payment-handlers/2026-09-09/",
+  "schema": "https://payments.paypal.com/ucp/payment-handlers/2026-09-09/schema.json",
+  "endpoints": {
+    "tokenize": "/ucp/v1/tokenize"
+  },
+  "available_instruments": [
+    {
+      "type": "card",
+      "constraints": {
+        "properties": {
+          "brand": {
+            "enum": [
+              "visa",
+              "mastercard",
+              "amex",
+              "discover"
+            ]
+          }
+        }
+      }
+    }
+  ],
+  "$defs": {
+    "business_config": {
+      "title": "PayPal Unified Payments Business Configuration",
+      "description": "Public configuration advertised by a merchant using the PayPal unified payment handler. public_key must contain only public tokenization material and must never contain a secret credential.",
+      "type": "object",
+      "required": [
+        "environment",
+        "merchant_id",
+        "public_key",
+        "psp"
+      ],
+      "properties": {
+        "environment": {
+          "type": "string",
+          "enum": [
+            "sandbox",
+            "production"
+          ]
+        },
+        "merchant_id": {
+          "type": "string",
+          "minLength": 1,
+          "description": "Merchant identifier used by the selected PayPal PSP."
+        },
+        "public_key": {
+          "type": "string",
+          "minLength": 1,
+          "description": "Public tokenization credential used to authorize calls to the tokenizer. Secret credentials must not be placed in a UCP profile."
+        },
+        "psp": {
+          "type": "string",
+          "enum": [
+            "BRAINTREE",
+            "PPCP"
+          ],
+          "description": "PayPal payment service provider that owns the merchant integration."
+        }
+      },
+      "additionalProperties": false
+    },
+    "tokenize_request": {
+      "$ref": "tokenize_request.json"
+    },
+    "tokenize_response": {
+      "$ref": "tokenize_response.json"
+    },
+    "token_credential": {
+      "$ref": "token_credential.json"
+    },
+    "payment_instrument": {
+      "$ref": "payment_instrument.json"
+    },
+    "com.paypal.payments": {
+      "payment_instrument": {
+        "$ref": "payment_instrument.json"
+      },
+      "business_schema": {
+        "title": "PayPal Unified Payments Handler (Business)",
+        "description": "Business-level handler configuration for merchant discovery.",
+        "allOf": [
+          {
+            "$ref": "https://ucp.dev/2026-08-25/schemas/payment_handler.json#/$defs/business_schema"
+          },
+          {
+            "type": "object",
+            "required": [
+              "config"
+            ],
+            "properties": {
+              "config": {
+                "$ref": "#/$defs/business_config"
+              }
+            }
+          }
+        ]
+      }
+    }
+  }
+}
