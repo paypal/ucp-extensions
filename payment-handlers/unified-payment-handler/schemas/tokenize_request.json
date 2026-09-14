@@ -1,0 +1,111 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://payments.paypal.com/ucp/payment-handlers/2026-09-09/tokenize_request.json",
+  "title": "PayPal Unified Payments Tokenize Request",
+  "description": "Request to tokenize a PAN for a merchant using the PayPal unified payment handler.",
+  "type": "object",
+  "required": [
+    "credential",
+    "binding",
+    "identity"
+  ],
+  "properties": {
+    "credential": {
+      "allOf": [
+        {
+          "$ref": "https://ucp.dev/2026-08-25/schemas/common/types/pan_credential.json"
+        },
+        {
+          "type": "object",
+          "required": [
+            "type",
+            "number",
+            "expiry_month",
+            "expiry_year"
+          ],
+          "properties": {
+            "type": {
+              "const": "pan"
+            },
+            "expiry_month": {
+              "type": "integer",
+              "minimum": 1,
+              "maximum": 12
+            },
+            "expiry_year": {
+              "type": "integer",
+              "minimum": 2026
+            }
+          }
+        }
+      ]
+    },
+    "binding": {
+      "allOf": [
+        {
+          "$ref": "https://ucp.dev/2026-08-25/schemas/common/types/binding.json"
+        },
+        {
+          "type": "object",
+          "required": [
+            "type",
+            "id"
+          ],
+          "properties": {
+            "type": {
+              "const": "dev.ucp.shopping.checkout"
+            }
+          }
+        }
+      ]
+    },
+    "identity": {
+      "allOf": [
+        {
+          "$ref": "https://ucp.dev/2026-08-25/schemas/common/types/payment_identity.json"
+        },
+        {
+          "type": "object",
+          "required": [
+            "access_token",
+            "psp"
+          ],
+          "properties": {
+            "access_token": {
+              "type": "string",
+              "minLength": 1
+            },
+            "psp": {
+              "type": "string",
+              "enum": [
+                "BRAINTREE",
+                "PPCP"
+              ]
+            }
+          }
+        }
+      ]
+    }
+  },
+  "additionalProperties": false,
+  "examples": [
+    {
+      "credential": {
+        "type": "pan",
+        "number": "4111111111111111",
+        "expiry_month": 12,
+        "expiry_year": 2028,
+        "cvc": "123",
+        "name": "Jane Doe"
+      },
+      "binding": {
+        "type": "dev.ucp.shopping.checkout",
+        "id": "checkout_test_123"
+      },
+      "identity": {
+        "access_token": "merchant_test_123",
+        "psp": "PPCP|BRAINTREE"
+      }
+    }
+  ]
+}

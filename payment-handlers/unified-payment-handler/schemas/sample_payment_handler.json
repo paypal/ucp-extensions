@@ -1,0 +1,39 @@
+{
+  "ucp": {
+    "version": "2026-08-25",
+    "services": {},
+    "payment_handlers": {
+      "com.paypal.payments": [
+        {
+          "id": "paypal-payments",
+          "version": "2026-09-09",
+          "spec": "https://payments.paypal.com/ucp/payment-handlers/2026-09-09/",
+          "schema": "https://payments.paypal.com/ucp/payment-handlers/2026-09-09/schema.json",
+          "available_instruments": [
+            {
+              "type": "card",
+              "constraints": {
+                "properties": {
+                  "brand": {
+                    "enum": [
+                      "visa",
+                      "mastercard",
+                      "amex",
+                      "discover"
+                    ]
+                  }
+                }
+              }
+            }
+          ],
+          "config": {
+            "environment": "sandbox",
+            "merchant_id": "merchant_test_123",
+            "public_key": "public_test_tokenization_key",
+            "psp": "PPCP|BRAINTREE"
+          }
+        }
+      ]
+    }
+  }
+}
