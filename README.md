@@ -15,7 +15,7 @@ payment-handlers/
 ├── unified-payment-handler/
 │   └── schemas/                  # JSON Schema files defining the Unified Payment Handler
 ├── paypal-wallet-payment-handler/
-│   └── schemas/                  # JSON Schema files defining the PayPal Wallet Payment Handler                # JSON Schema files defining the Venmo Wallet Payment Handler
+│   └── schemas/                  # JSON Schema files defining the PayPal Wallet Payment Handler
 shopping/
 └── custom-shopping-extension/
     └── schemas/                  # JSON Schema files defining the Custom Shopping Extension
