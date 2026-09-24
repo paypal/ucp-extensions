@@ -13,7 +13,7 @@
             {
               "type": "card",
               "constraints": {
-                "brands": ["visa", "mastercard", "amex", "discover"],
+                "brands": ["visa", "mastercard", "amex", "discover", "jcb", "diners", "elo", "hiper", "hipercard", "maestro", "switch", "solo", "unionpay"],
                 "tokenization": "required"
               }
             },

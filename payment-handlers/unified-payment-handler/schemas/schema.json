@@ -18,7 +18,16 @@
           "visa",
           "mastercard",
           "amex",
-          "discover"
+          "discover",
+          "jcb",
+          "diners",
+          "elo",
+          "hiper",
+          "hipercard",
+          "maestro",
+          "switch",
+          "solo",
+          "unionpay"
         ],
         "tokenization": "required"
       }
