@@ -2,7 +2,7 @@
   "$schema": "https://json-schema.org/draft/2020-12/schema",
   "$id": "https://payments.paypal.com/ucp/payment-handlers/2026-09-22/tokenize_request.json",
   "title": "PayPal Unified Payments Tokenize Request",
-  "description": "Request to tokenize a card for the card instrument of the PayPal Universal Payment Handler. The agent's PSP calls this and forwards the resulting nonce on /complete; a raw PAN is never sent to the merchant.",
+  "description": "Request to tokenize a card for the card instrument of the PayPal Unified Payment Handler. The agent's PSP calls this and forwards the resulting nonce on /complete; a raw PAN is never sent to the merchant.",
   "type": "object",
   "required": [
     "credential",

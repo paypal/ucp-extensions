@@ -1,7 +1,7 @@
 {
   "$schema": "https://json-schema.org/draft/2020-12/schema",
   "$id": "https://payments.paypal.com/ucp/payment-handlers/2026-09-22/schema.json",
-  "title": "PayPal Universal Payment Handler",
+  "title": "PayPal Unified Payment Handler",
   "description": "Schema for the com.paypal.payments payment handler. One handler advertises four instruments — card, paypal, google_pay, apple_pay — each with its own per-instrument config and credential.",
   "name": "com.paypal.payments",
   "version": "2026-09-22",
@@ -53,8 +53,8 @@
   ],
   "$defs": {
     "business_config": {
-      "title": "PayPal Universal Payment Handler Business Configuration",
-      "description": "Handler-level config advertised by a merchant using the PayPal Universal Payment Handler. Carries only the payee identity; per-instrument material lives in each instrument's config.",
+      "title": "PayPal Unified Payment Handler Business Configuration",
+      "description": "Handler-level config advertised by a merchant using the PayPal Unified Payment Handler. Carries only the payee identity; per-instrument material lives in each instrument's config.",
       "type": "object",
       "required": [
         "environment",
@@ -133,7 +133,7 @@
         ]
       },
       "business_schema": {
-        "title": "PayPal Universal Payment Handler (Business)",
+        "title": "PayPal Unified Payment Handler (Business)",
         "description": "Business-level handler configuration for merchant discovery.",
         "allOf": [
           {
