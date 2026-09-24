@@ -5,15 +5,10 @@
     "payment_handlers": {
       "com.paypal.wallet": [
         {
-          "id": "paypal",
+          "id": "paypal-wallet-handler",
           "version": "2026-09-02",
           "spec": "https://developer.paypal.com/ucp/paypal-wallet/spec",
           "schema": "https://developer.paypal.com/ucp/paypal-wallet/schema.json",
-          "available_instruments": [
-            {
-              "type": "paypal_wallet"
-            }
-          ],
           "config": {
             "environment": "production",
             "paypal_merchant_identifier": "Q7C9N6S4YRQXG"

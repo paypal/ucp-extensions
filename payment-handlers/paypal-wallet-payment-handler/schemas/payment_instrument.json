@@ -36,7 +36,7 @@
   "examples": [
     {
       "id": "pi_paypal_1",
-      "handler_id": "paypal",
+      "handler_id": "paypal-wallet-handler",
       "type": "paypal_wallet",
       "selected": true,
       "credential": {

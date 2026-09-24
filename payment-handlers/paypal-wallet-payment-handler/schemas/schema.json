@@ -7,11 +7,6 @@
   "version": "2026-09-02",
   "spec": "https://developer.paypal.com/ucp/paypal-wallet/spec",
   "schema": "https://developer.paypal.com/ucp/paypal-wallet/schema.json",
-  "available_instruments": [
-    {
-      "type": "paypal_wallet"
-    }
-  ],
   "$defs": {
     "business_config": {
       "title": "PayPal Wallet Business Configuration",
