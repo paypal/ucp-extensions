@@ -2,12 +2,11 @@
   "$schema": "https://json-schema.org/draft/2020-12/schema",
   "$id": "https://payments.paypal.com/ucp/payment-handlers/2026-09-09/tokenize_request.json",
   "title": "PayPal Unified Payments Tokenize Request",
-  "description": "Request to tokenize a PAN for a merchant using the PayPal unified payment handler.",
+  "description": "Request to tokenize a card for the card instrument of the PayPal Universal Payment Handler. The agent's PSP calls this and forwards the resulting nonce on /complete; a raw PAN is never sent to the merchant.",
   "type": "object",
   "required": [
     "credential",
-    "binding",
-    "identity"
+    "binding"
   ],
   "properties": {
     "credential": {
@@ -19,13 +18,23 @@
           "type": "object",
           "required": [
             "type",
+            "card_number_type",
             "number",
             "expiry_month",
             "expiry_year"
           ],
           "properties": {
             "type": {
-              "const": "pan"
+              "const": "card"
+            },
+            "card_number_type": {
+              "type": "string",
+              "enum": [
+                "fpan",
+                "network_token",
+                "dpan"
+              ],
+              "description": "Format of `number`. Network tokens are preferred with fallback to FPAN."
             },
             "expiry_month": {
               "type": "integer",
@@ -35,6 +44,14 @@
             "expiry_year": {
               "type": "integer",
               "minimum": 2026
+            },
+            "cryptogram": {
+              "type": "string",
+              "description": "Provided with network tokens (card_number_type: \"network_token\")."
+            },
+            "eci_value": {
+              "type": "string",
+              "description": "Provided with network tokens (card_number_type: \"network_token\")."
             }
           }
         }
@@ -54,33 +71,11 @@
           "properties": {
             "type": {
               "const": "dev.ucp.shopping.checkout"
-            }
-          }
-        }
-      ]
-    },
-    "identity": {
-      "allOf": [
-        {
-          "$ref": "https://ucp.dev/2026-08-25/schemas/common/types/payment_identity.json"
-        },
-        {
-          "type": "object",
-          "required": [
-            "access_token",
-            "psp"
-          ],
-          "properties": {
-            "access_token": {
-              "type": "string",
-              "minLength": 1
             },
-            "psp": {
+            "id": {
               "type": "string",
-              "enum": [
-                "BRAINTREE",
-                "PPCP"
-              ]
+              "minLength": 1,
+              "description": "The checkout session this token is scoped to. Binds the token so it can't be replayed on another checkout."
             }
           }
         }
@@ -91,20 +86,17 @@
   "examples": [
     {
       "credential": {
-        "type": "pan",
+        "type": "card",
+        "card_number_type": "fpan",
         "number": "4111111111111111",
-        "expiry_month": 12,
+        "expiry_month": 4,
         "expiry_year": 2028,
         "cvc": "123",
         "name": "Jane Doe"
       },
       "binding": {
         "type": "dev.ucp.shopping.checkout",
-        "id": "checkout_test_123"
-      },
-      "identity": {
-        "access_token": "merchant_test_123",
-        "psp": "PPCP|BRAINTREE"
+        "id": "<checkout_id>"
       }
     }
   ]

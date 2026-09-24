@@ -1,8 +1,8 @@
 {
   "$schema": "https://json-schema.org/draft/2020-12/schema",
   "$id": "https://payments.paypal.com/ucp/payment-handlers/2026-09-09/schema.json",
-  "title": "PayPal Unified Payments Handler",
-  "description": "Schema for the com.paypal.payments payment handler shared by Braintree and PPCP merchants.",
+  "title": "PayPal Universal Payment Handler",
+  "description": "Schema for the com.paypal.payments payment handler. One handler advertises four instruments — card, paypal, google_pay, apple_pay — each with its own per-instrument config and credential.",
   "name": "com.paypal.payments",
   "version": "2026-09-09",
   "spec": "https://payments.paypal.com/ucp/payment-handlers/2026-09-09/",
@@ -14,29 +14,42 @@
     {
       "type": "card",
       "constraints": {
-        "properties": {
-          "brand": {
-            "enum": [
-              "visa",
-              "mastercard",
-              "amex",
-              "discover"
-            ]
-          }
-        }
+        "brands": [
+          "visa",
+          "mastercard",
+          "amex",
+          "discover"
+        ],
+        "tokenization": "required"
+      }
+    },
+    {
+      "type": "paypal",
+      "config": {
+        "$ref": "paypal_config.json"
+      }
+    },
+    {
+      "type": "google_pay",
+      "config": {
+        "$ref": "google_pay_config.json"
+      }
+    },
+    {
+      "type": "apple_pay",
+      "config": {
+        "$ref": "apple_pay_config.json"
       }
     }
   ],
   "$defs": {
     "business_config": {
-      "title": "PayPal Unified Payments Business Configuration",
-      "description": "Public configuration advertised by a merchant using the PayPal unified payment handler. public_key must contain only public tokenization material and must never contain a secret credential.",
+      "title": "PayPal Universal Payment Handler Business Configuration",
+      "description": "Handler-level config advertised by a merchant using the PayPal Universal Payment Handler. Carries only the payee identity; per-instrument material lives in each instrument's config.",
       "type": "object",
       "required": [
         "environment",
-        "merchant_id",
-        "public_key",
-        "psp"
+        "merchant_id"
       ],
       "properties": {
         "environment": {
@@ -49,20 +62,7 @@
         "merchant_id": {
           "type": "string",
           "minLength": 1,
-          "description": "Merchant identifier used by the selected PayPal PSP."
-        },
-        "public_key": {
-          "type": "string",
-          "minLength": 1,
-          "description": "Public tokenization credential used to authorize calls to the tokenizer. Secret credentials must not be placed in a UCP profile."
-        },
-        "psp": {
-          "type": "string",
-          "enum": [
-            "BRAINTREE",
-            "PPCP"
-          ],
-          "description": "PayPal payment service provider that owns the merchant integration."
+          "description": "The merchant's PayPal Merchant ID — the payee the captured order settles to."
         }
       },
       "additionalProperties": false
@@ -73,18 +73,58 @@
     "tokenize_response": {
       "$ref": "tokenize_response.json"
     },
-    "token_credential": {
-      "$ref": "token_credential.json"
+    "nonce_credential": {
+      "$ref": "nonce_credential.json"
     },
-    "payment_instrument": {
+    "approval_token_credential": {
+      "$ref": "approval_token_credential.json"
+    },
+    "google_pay_token_credential": {
+      "$ref": "google_pay_token_credential.json"
+    },
+    "apple_pay_token_credential": {
+      "$ref": "apple_pay_token_credential.json"
+    },
+    "paypal_config": {
+      "$ref": "paypal_config.json"
+    },
+    "google_pay_config": {
+      "$ref": "google_pay_config.json"
+    },
+    "apple_pay_config": {
+      "$ref": "apple_pay_config.json"
+    },
+    "card_instrument": {
       "$ref": "payment_instrument.json"
+    },
+    "paypal_instrument": {
+      "$ref": "paypal_instrument.json"
+    },
+    "google_pay_instrument": {
+      "$ref": "google_pay_instrument.json"
+    },
+    "apple_pay_instrument": {
+      "$ref": "apple_pay_instrument.json"
     },
     "com.paypal.payments": {
       "payment_instrument": {
-        "$ref": "payment_instrument.json"
+        "oneOf": [
+          {
+            "$ref": "payment_instrument.json"
+          },
+          {
+            "$ref": "paypal_instrument.json"
+          },
+          {
+            "$ref": "google_pay_instrument.json"
+          },
+          {
+            "$ref": "apple_pay_instrument.json"
+          }
+        ]
       },
       "business_schema": {
-        "title": "PayPal Unified Payments Handler (Business)",
+        "title": "PayPal Universal Payment Handler (Business)",
         "description": "Business-level handler configuration for merchant discovery.",
         "allOf": [
           {

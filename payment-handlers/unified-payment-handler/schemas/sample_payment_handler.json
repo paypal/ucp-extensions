@@ -1,36 +1,68 @@
 {
   "ucp": {
-    "version": "2026-08-25",
+    "version": "2026-04-08",
     "services": {},
     "payment_handlers": {
       "com.paypal.payments": [
         {
-          "id": "paypal-payments",
-          "version": "2026-09-09",
+          "id": "unified-paypal-handler",
+          "version": "2026-06-25",
           "spec": "https://payments.paypal.com/ucp/payment-handlers/2026-09-09/",
           "schema": "https://payments.paypal.com/ucp/payment-handlers/2026-09-09/schema.json",
           "available_instruments": [
             {
               "type": "card",
               "constraints": {
-                "properties": {
-                  "brand": {
-                    "enum": [
-                      "visa",
-                      "mastercard",
-                      "amex",
-                      "discover"
-                    ]
+                "brands": ["visa", "mastercard", "amex", "discover"],
+                "tokenization": "required"
+              }
+            },
+            {
+              "type": "paypal",
+              "config": {
+                "merchant_id": "L92QX7RBHF63K"
+              }
+            },
+            {
+              "type": "google_pay",
+              "config": {
+                "api_version": 2,
+                "api_version_minor": 0,
+                "environment": "PRODUCTION",
+                "merchant_info": {
+                  "merchant_name": "Example Merchant",
+                  "merchant_id": "1234567890123456789",
+                  "merchant_origin": "checkout.merchant.com"
+                },
+                "allowed_payment_methods": [
+                  {
+                    "type": "CARD",
+                    "parameters": {
+                      "allowed_auth_methods": ["PAN_ONLY", "CRYPTOGRAM_3DS"],
+                      "allowed_card_networks": ["AMEX", "DISCOVER", "JCB", "MASTERCARD", "VISA"]
+                    },
+                    "tokenization_specification": {
+                      "type": "PAYMENT_GATEWAY",
+                      "parameters": {
+                        "gateway": "paypalppcp",
+                        "gatewayMerchantId": "L92QX7RBHF63K"
+                      }
+                    }
                   }
-                }
+                ]
+              }
+            },
+            {
+              "type": "apple_pay",
+              "config": {
+                "merchant_identifier": "merchant.com.example.store",
+                "supported_networks": ["visa", "mastercard", "amex", "discover"]
               }
             }
           ],
           "config": {
-            "environment": "sandbox",
-            "merchant_id": "merchant_test_123",
-            "public_key": "public_test_tokenization_key",
-            "psp": "PPCP|BRAINTREE"
+            "environment": "production",
+            "merchant_id": "L92QX7RBHF63K"
           }
         }
       ]

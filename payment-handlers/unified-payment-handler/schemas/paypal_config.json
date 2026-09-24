@@ -1,0 +1,23 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://payments.paypal.com/ucp/payment-handlers/2026-09-09/paypal_config.json",
+  "title": "PayPal Unified Payments — paypal Instrument Config",
+  "description": "Per-instrument config for the paypal (PayPal branded wallet) instrument.",
+  "type": "object",
+  "required": [
+    "merchant_id"
+  ],
+  "properties": {
+    "merchant_id": {
+      "type": "string",
+      "minLength": 1,
+      "description": "The merchant's PayPal Merchant ID (payee). The agent scopes the approval token to this payee."
+    }
+  },
+  "additionalProperties": false,
+  "examples": [
+    {
+      "merchant_id": "<paypal_merchant_id>"
+    }
+  ]
+}

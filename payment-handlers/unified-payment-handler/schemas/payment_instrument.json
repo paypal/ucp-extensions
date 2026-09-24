@@ -33,20 +33,20 @@
           "const": "card"
         },
         "credential": {
-          "$ref": "token_credential.json"
+          "$ref": "nonce_credential.json"
         }
       }
     }
   ],
   "examples": [
     {
-      "id": "instrument_test_123",
-      "handler_id": "paypal-payments",
+      "id": "instr_1",
+      "handler_id": "unified-paypal-handler",
       "type": "card",
+      "selected": true,
       "credential": {
-        "type": "paypal_payment_token",
-        "token": "PAYPAL-TEST-TOKEN-123",
-        "expires_at": "2026-09-10T15:15:00Z"
+        "type": "nonce",
+        "token": "<nonce>"
       }
     }
   ]
