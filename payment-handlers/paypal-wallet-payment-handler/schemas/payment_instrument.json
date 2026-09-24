@@ -1,0 +1,48 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://developer.paypal.com/ucp/paypal-wallet/payment_instrument.json",
+  "title": "PayPal Wallet Payment Instrument",
+  "description": "PayPal wallet payment instrument carrying a PayPal approval token, forwarded by the agent on /complete.",
+  "type": "object",
+  "required": [
+    "id",
+    "handler_id",
+    "type",
+    "credential"
+  ],
+  "properties": {
+    "id": {
+      "type": "string",
+      "minLength": 1,
+      "description": "Unique id for this instrument instance, assigned by the agent platform."
+    },
+    "handler_id": {
+      "type": "string",
+      "minLength": 1,
+      "description": "Matches the id of the com.paypal.wallet handler declaration."
+    },
+    "type": {
+      "const": "paypal_wallet"
+    },
+    "selected": {
+      "type": "boolean",
+      "description": "True when this is the instrument the buyer selected."
+    },
+    "credential": {
+      "$ref": "approval_token_credential.json"
+    }
+  },
+  "additionalProperties": false,
+  "examples": [
+    {
+      "id": "pi_paypal_1",
+      "handler_id": "paypal-wallet-handler",
+      "type": "paypal_wallet",
+      "selected": true,
+      "credential": {
+        "type": "approval_token",
+        "token": "1AB23456CD789012E"
+      }
+    }
+  ]
+}

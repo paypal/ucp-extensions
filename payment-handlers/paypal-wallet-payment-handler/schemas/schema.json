@@ -1,0 +1,67 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://developer.paypal.com/ucp/paypal-wallet/schema.json",
+  "title": "PayPal Wallet Payment Handler",
+  "description": "Schema for the com.paypal.wallet payment handler. The PayPal branded wallet, redeemed via a single-use PayPal approval token.",
+  "name": "com.paypal.wallet",
+  "version": "2026-09-02",
+  "spec": "https://developer.paypal.com/ucp/paypal-wallet/spec",
+  "schema": "https://developer.paypal.com/ucp/paypal-wallet/schema.json",
+  "$defs": {
+    "business_config": {
+      "title": "PayPal Wallet Business Configuration",
+      "description": "Public configuration advertised by a merchant using the PayPal wallet payment handler. It carries no secret credentials.",
+      "type": "object",
+      "required": [
+        "environment",
+        "paypal_merchant_identifier"
+      ],
+      "properties": {
+        "environment": {
+          "type": "string",
+          "enum": [
+            "sandbox",
+            "production"
+          ]
+        },
+        "paypal_merchant_identifier": {
+          "type": "string",
+          "minLength": 1,
+          "description": "The merchant's PayPal Merchant ID (payee). PayPal uses this as the payee on the approval token, scoping it to this merchant."
+        }
+      },
+      "additionalProperties": false
+    },
+    "approval_token_credential": {
+      "$ref": "approval_token_credential.json"
+    },
+    "payment_instrument": {
+      "$ref": "payment_instrument.json"
+    },
+    "com.paypal.wallet": {
+      "payment_instrument": {
+        "$ref": "payment_instrument.json"
+      },
+      "business_schema": {
+        "title": "PayPal Wallet Payment Handler (Business)",
+        "description": "Business-level handler configuration for merchant discovery.",
+        "allOf": [
+          {
+            "$ref": "https://ucp.dev/2026-08-25/schemas/payment_handler.json#/$defs/business_schema"
+          },
+          {
+            "type": "object",
+            "required": [
+              "config"
+            ],
+            "properties": {
+              "config": {
+                "$ref": "#/$defs/business_config"
+              }
+            }
+          }
+        ]
+      }
+    }
+  }
+}
