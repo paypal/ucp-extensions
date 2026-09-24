@@ -38,7 +38,7 @@
                   {
                     "type": "CARD",
                     "parameters": {
-                      "allowed_auth_methods": ["PAN_ONLY", "CRYPTOGRAM_3DS"],
+                      "allowed_auth_methods": ["PAN_ONLY"],
                       "allowed_card_networks": ["AMEX", "DISCOVER", "JCB", "MASTERCARD", "VISA"]
                     },
                     "tokenization_specification": {

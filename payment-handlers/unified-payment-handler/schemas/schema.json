@@ -32,7 +32,7 @@
     {
       "type": "google_pay",
       "config": {
-        "$ref": "google_pay_config.json"
+        "$ref": "https://pay.google.com/gp/p/ucp/2026-01-23/schemas/config.json"
       }
     },
     {
@@ -89,7 +89,7 @@
       "$ref": "paypal_config.json"
     },
     "google_pay_config": {
-      "$ref": "google_pay_config.json"
+      "$ref": "https://pay.google.com/gp/p/ucp/2026-01-23/schemas/config.json"
     },
     "apple_pay_config": {
       "$ref": "apple_pay_config.json"
