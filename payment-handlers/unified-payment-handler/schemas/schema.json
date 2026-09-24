@@ -77,7 +77,7 @@
       "$ref": "nonce_credential.json"
     },
     "approval_token_credential": {
-      "$ref": "approval_token_credential.json"
+      "$ref": "../../common/schemas/approval_token_credential.json"
     },
     "google_pay_token_credential": {
       "$ref": "google_pay_token_credential.json"
