@@ -1,14 +1,14 @@
 {
   "ucp": {
-    "version": "2026-04-08",
+    "version": "2026-08-25",
     "services": {},
     "payment_handlers": {
       "com.paypal.payments": [
         {
           "id": "unified-paypal-handler",
-          "version": "2026-06-25",
-          "spec": "https://payments.paypal.com/ucp/payment-handlers/2026-09-09/",
-          "schema": "https://payments.paypal.com/ucp/payment-handlers/2026-09-09/schema.json",
+          "version": "2026-09-22",
+          "spec": "https://payments.paypal.com/ucp/payment-handlers/2026-09-22/",
+          "schema": "https://payments.paypal.com/ucp/payment-handlers/2026-09-22/schema.json",
           "available_instruments": [
             {
               "type": "card",

@@ -1,6 +1,6 @@
 {
   "$schema": "https://json-schema.org/draft/2020-12/schema",
-  "$id": "https://payments.paypal.com/ucp/payment-handlers/2026-09-09/payment_instrument.json",
+  "$id": "https://payments.paypal.com/ucp/payment-handlers/2026-09-22/payment_instrument.json",
   "title": "PayPal Unified Payments Card Instrument",
   "description": "Card payment instrument containing a token produced by the PayPal unified tokenizer.",
   "$defs": {

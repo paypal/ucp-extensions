@@ -1,6 +1,6 @@
 {
   "$schema": "https://json-schema.org/draft/2020-12/schema",
-  "$id": "https://payments.paypal.com/ucp/payment-handlers/2026-09-09/paypal_instrument.json",
+  "$id": "https://payments.paypal.com/ucp/payment-handlers/2026-09-22/paypal_instrument.json",
   "title": "PayPal Unified Payments paypal Instrument",
   "description": "The paypal (PayPal branded wallet) instrument forwarded on /complete. Carries a PayPal approval token.",
   "allOf": [

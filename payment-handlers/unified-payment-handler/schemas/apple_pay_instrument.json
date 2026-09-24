@@ -1,6 +1,6 @@
 {
   "$schema": "https://json-schema.org/draft/2020-12/schema",
-  "$id": "https://payments.paypal.com/ucp/payment-handlers/2026-09-09/apple_pay_instrument.json",
+  "$id": "https://payments.paypal.com/ucp/payment-handlers/2026-09-22/apple_pay_instrument.json",
   "title": "PayPal Unified Payments apple_pay Instrument",
   "description": "The apple_pay instrument forwarded on /complete. Carries the encrypted Apple Pay payment token, passed through unchanged.",
   "allOf": [
