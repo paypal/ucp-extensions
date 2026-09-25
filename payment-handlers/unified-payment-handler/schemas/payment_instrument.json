@@ -1,6 +1,6 @@
 {
   "$schema": "https://json-schema.org/draft/2020-12/schema",
-  "$id": "https://payments.paypal.com/ucp/payment-handlers/2026-09-09/payment_instrument.json",
+  "$id": "https://payments.paypal.com/ucp/payment-handlers/2026-09-22/payment_instrument.json",
   "title": "PayPal Unified Payments Card Instrument",
   "description": "Card payment instrument containing a token produced by the PayPal unified tokenizer.",
   "$defs": {
@@ -33,20 +33,20 @@
           "const": "card"
         },
         "credential": {
-          "$ref": "token_credential.json"
+          "$ref": "nonce_credential.json"
         }
       }
     }
   ],
   "examples": [
     {
-      "id": "instrument_test_123",
-      "handler_id": "paypal-payments",
+      "id": "instr_1",
+      "handler_id": "unified-paypal-handler",
       "type": "card",
+      "selected": true,
       "credential": {
-        "type": "paypal_payment_token",
-        "token": "PAYPAL-TEST-TOKEN-123",
-        "expires_at": "2026-09-10T15:15:00Z"
+        "type": "nonce",
+        "token": "<nonce>"
       }
     }
   ]

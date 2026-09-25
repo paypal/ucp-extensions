@@ -29,7 +29,7 @@
       "description": "True when this is the instrument the buyer selected."
     },
     "credential": {
-      "$ref": "approval_token_credential.json"
+      "$ref": "../../common/schemas/approval_token_credential.json"
     }
   },
   "additionalProperties": false,

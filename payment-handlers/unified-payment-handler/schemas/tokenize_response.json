@@ -1,36 +1,23 @@
 {
   "$schema": "https://json-schema.org/draft/2020-12/schema",
-  "$id": "https://payments.paypal.com/ucp/payment-handlers/2026-09-09/tokenize_response.json",
+  "$id": "https://payments.paypal.com/ucp/payment-handlers/2026-09-22/tokenize_response.json",
   "title": "PayPal Unified Payments Tokenize Response",
-  "description": "Response containing a PayPal payment token scoped to the requested binding and merchant identity.",
+  "description": "Response from the card tokenize endpoint. Carries only the nonce — a single-use token bound to the checkout it was minted for.",
   "type": "object",
   "required": [
-    "type",
-    "token",
-    "expires_at"
+    "token"
   ],
   "properties": {
-    "type": {
-      "const": "paypal_payment_token",
-      "description": "PayPal payment-token type discriminator."
-    },
     "token": {
       "type": "string",
       "minLength": 1,
-      "description": "Opaque, single-use payment token."
-    },
-    "expires_at": {
-      "type": "string",
-      "format": "date-time",
-      "description": "Token expiration in RFC 3339 format. Tokens expire no later than 15 minutes after issuance."
+      "description": "Opaque, single-use nonce bound to this checkout. Forwarded on /complete as credential.token with credential.type \"nonce\"."
     }
   },
   "additionalProperties": false,
   "examples": [
     {
-      "type": "paypal_payment_token",
-      "token": "PAYPAL-TEST-TOKEN-123",
-      "expires_at": "2026-09-10T15:15:00Z"
+      "token": "<nonce>"
     }
   ]
 }

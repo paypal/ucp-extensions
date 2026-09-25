@@ -1,0 +1,33 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://payments.paypal.com/ucp/payment-handlers/2026-09-22/apple_pay_config.json",
+  "title": "PayPal Unified Payments — apple_pay Instrument Config",
+  "description": "Per-instrument config for the apple_pay instrument. ⚠️ Provisional: the exact shape is not finalized — pending platform input. Field names are treated as provisional per the Merchant integration guide §3.4.",
+  "type": "object",
+  "required": [
+    "merchant_identifier",
+    "supported_networks"
+  ],
+  "properties": {
+    "merchant_identifier": {
+      "type": "string",
+      "minLength": 1,
+      "description": "The merchant's Apple merchant identifier, used by the agent for the PKPaymentRequest and merchant validation. Provisional field name."
+    },
+    "supported_networks": {
+      "type": "array",
+      "minItems": 1,
+      "items": {
+        "type": "string"
+      },
+      "description": "The card networks offered in the Apple Pay sheet. Provisional field name."
+    }
+  },
+  "additionalProperties": false,
+  "examples": [
+    {
+      "merchant_identifier": "merchant.com.example.store",
+      "supported_networks": ["visa", "mastercard", "amex", "discover"]
+    }
+  ]
+}

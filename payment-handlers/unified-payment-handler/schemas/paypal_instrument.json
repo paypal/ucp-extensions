@@ -1,0 +1,48 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://payments.paypal.com/ucp/payment-handlers/2026-09-22/paypal_instrument.json",
+  "title": "PayPal Unified Payments paypal Instrument",
+  "description": "The paypal (PayPal branded wallet) instrument forwarded on /complete. Carries a PayPal approval token.",
+  "allOf": [
+    {
+      "$ref": "https://ucp.dev/2026-08-25/schemas/common/types/payment_instrument.json"
+    },
+    {
+      "type": "object",
+      "required": [
+        "id",
+        "handler_id",
+        "type",
+        "credential"
+      ],
+      "properties": {
+        "id": {
+          "type": "string",
+          "minLength": 1
+        },
+        "handler_id": {
+          "type": "string",
+          "minLength": 1
+        },
+        "type": {
+          "const": "paypal"
+        },
+        "credential": {
+          "$ref": "../../common/schemas/approval_token_credential.json"
+        }
+      }
+    }
+  ],
+  "examples": [
+    {
+      "id": "instr_1",
+      "handler_id": "unified-paypal-handler",
+      "type": "paypal",
+      "selected": true,
+      "credential": {
+        "type": "approval_token",
+        "token": "1AB23456CD789012E"
+      }
+    }
+  ]
+}

@@ -4,7 +4,7 @@
   "title": "PayPal Wallet Payment Handler",
   "description": "Schema for the com.paypal.wallet payment handler. The PayPal branded wallet, redeemed via a single-use PayPal approval token.",
   "name": "com.paypal.wallet",
-  "version": "2026-09-02",
+  "version": "2026-09-22",
   "spec": "https://developer.paypal.com/ucp/paypal-wallet/spec",
   "schema": "https://developer.paypal.com/ucp/paypal-wallet/schema.json",
   "$defs": {
@@ -33,7 +33,7 @@
       "additionalProperties": false
     },
     "approval_token_credential": {
-      "$ref": "approval_token_credential.json"
+      "$ref": "../../common/schemas/approval_token_credential.json"
     },
     "payment_instrument": {
       "$ref": "payment_instrument.json"
