@@ -20,7 +20,7 @@
             {
               "type": "paypal",
               "config": {
-                "merchant_id": "L92QX7RBHF63K"
+                "merchant_id": "<paypal_merchant_id>"
               }
             },
             {
@@ -31,7 +31,7 @@
                 "environment": "PRODUCTION",
                 "merchant_info": {
                   "merchant_name": "Example Merchant",
-                  "merchant_id": "1234567890123456789",
+                  "merchant_id": "<google_pay_merchant_id>",
                   "merchant_origin": "checkout.merchant.com"
                 },
                 "allowed_payment_methods": [
@@ -45,7 +45,7 @@
                       "type": "PAYMENT_GATEWAY",
                       "parameters": {
                         "gateway": "paypalppcp",
-                        "gatewayMerchantId": "L92QX7RBHF63K"
+                        "gatewayMerchantId": "<paypal_merchant_id>"
                       }
                     }
                   }
@@ -62,7 +62,7 @@
           ],
           "config": {
             "environment": "production",
-            "merchant_id": "L92QX7RBHF63K"
+            "merchant_id": "<paypal_merchant_id>"
           }
         }
       ]

@@ -2,6 +2,9 @@
 
 - **Handler Name:** `com.paypal.payments`
 - **Version:** `2026-10-08`
+- **Status:** Draft
+
+> ⚠️ **DRAFT — NOT THE FINAL VERSION.** This specification is a work in progress and is subject to change without notice. Field names, endpoints, flows, and behaviors described here may be modified, renamed, or removed before the final release, and sections marked `TODO` or `TBD` are incomplete. Do not rely on this document for production integrations.
 
 ## 1. Introduction
 
@@ -25,7 +28,7 @@ Before publicly exposing their UCP profiles, businesses must complete the follow
 
    Your Merchant ID is listed in the Business Profile as ID #.
 
-   Example: ID #L92QX7RBHF63K
+   Example: ID #XXXXXXXXXXXXX
 
    Use this value (without the ID # prefix) wherever this guide references `<paypal_merchant_id>`.
 
@@ -80,7 +83,7 @@ The configuration object defines the environment and merchant identity.
           {
             "type": "paypal",
             "config": {
-              "merchant_id": "L92QX7RBHF63K"
+              "merchant_id": "<paypal_merchant_id>"
             }
           },
           {
@@ -91,7 +94,7 @@ The configuration object defines the environment and merchant identity.
               "environment": "PRODUCTION",
               "merchant_info": {
                 "merchant_name": "Example Merchant",
-                "merchant_id": "1234567890123456789",
+                "merchant_id": "<google_pay_merchant_id>",
                 "merchant_origin": "checkout.merchant.com"
               },
               "allowed_payment_methods": [
@@ -111,7 +114,7 @@ The configuration object defines the environment and merchant identity.
                     "type": "PAYMENT_GATEWAY",
                     "parameters": {
                       "gateway": "braintree",
-                      "gatewayMerchantId": "bn7r4qtsvjs746dm"
+                      "gatewayMerchantId": "<braintree_merchant_id>"
                     }
                   }
                 }
@@ -128,7 +131,7 @@ The configuration object defines the environment and merchant identity.
         ],
         "config": {
           "environment": "production",
-          "merchant_id": "bn7r4qtsvjs746dm"
+          "merchant_id": "<braintree_merchant_id>"
         }
       }
     ]
@@ -173,7 +176,7 @@ The configuration object defines the environment and merchant identity.
           {
             "type": "paypal",
             "config": {
-              "merchant_id": "L92QX7RBHF63K"
+              "merchant_id": "<paypal_merchant_id>"
             }
           },
           {
@@ -184,7 +187,7 @@ The configuration object defines the environment and merchant identity.
               "environment": "PRODUCTION",
               "merchant_info": {
                 "merchant_name": "Example Merchant",
-                "merchant_id": "1234567890123456789",
+                "merchant_id": "<google_pay_merchant_id>",
                 "merchant_origin": "checkout.merchant.com"
               },
               "allowed_payment_methods": [
@@ -204,7 +207,7 @@ The configuration object defines the environment and merchant identity.
                     "type": "PAYMENT_GATEWAY",
                     "parameters": {
                       "gateway": "paypalppcp",
-                      "gatewayMerchantId": "L92QX7RBHF63K"
+                      "gatewayMerchantId": "<paypal_merchant_id>"
                     }
                   }
                 }
@@ -221,7 +224,7 @@ The configuration object defines the environment and merchant identity.
         ],
         "config": {
           "environment": "production",
-          "merchant_id": "L92QX7RBHF63K"
+          "merchant_id": "<paypal_merchant_id>"
         }
       }
     ]
@@ -361,7 +364,7 @@ _Request_
 ```json
 {
   "total_amount": { "value": "50.00", "currency_code": "USD" },
-  "payee": { "merchant_id": "Q7C9N6S4YRQXG" },
+  "payee": { "merchant_id": "<paypal_merchant_id>" },
   "payment_method": {
     "paypal": {
       "experience_context": {
@@ -571,7 +574,7 @@ _Request_
 ```json
 {
   "total_amount": { "value": "99.99", "currency_code": "USD" },
-  "payee": { "merchant_id": "Q7C9N6S4YRQXG" },
+  "payee": { "merchant_id": "<paypal_merchant_id>" },
   "payment_method": {
     "paypal": { "vault_id": "71430604w5310851h" }
   }
@@ -587,7 +590,7 @@ _Response_
   "id": "5TC14653UR845035G",
   "status": "APPROVED",
   "total_amount": { "currency_code": "USD", "value": "99.99" },
-  "payee": { "merchant_id": "Q7C9N6S4YRQXG" },
+  "payee": { "merchant_id": "<paypal_merchant_id>" },
   "payment_method": {
     "paypal": {
       "email_address": "buyer@example.com",
