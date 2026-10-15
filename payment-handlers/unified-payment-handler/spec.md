@@ -328,9 +328,9 @@ Both end the same way: you forward one approval token into the merchant's `/comp
 
 **Hosts**
 
-| Production               | Sandbox                          |
-| ------------------------ | -------------------------------- |
-| https://api-m.paypal.com | https://api-m.sandbox.paypal.com |
+| Production                 | Sandbox                            |
+| -------------------------- | ---------------------------------- |
+| <https://api-m.paypal.com> | <https://api-m.sandbox.paypal.com> |
 
 **Endpoints**
 
@@ -398,7 +398,7 @@ The `id` is the approval token you forward on `/complete`.
 
 Amount note: the amount is fixed on the token at creation. A later order for a different amount will fail. Set `total_amount` to the amount the buyer is approving.
 
-_SDK — Render the PayPal button for buyer approval_
+_SDK — render the PayPal button for buyer approval_
 
 Include the SDK on your page:
 
@@ -455,14 +455,14 @@ With a vaulted PayPal wallet there is no button and no buyer action at purchase.
 Two phases:
 
 - Enrollment (once, outside agentic checkout): the buyer saves their PayPal wallet as a channel-initiated billing agreement (CIB), producing a `vault_id`.
-- Purchase (agentic checkout): the agent's PSP submits risk signals, then creates an approval token from the vault_id + merchant ID. No button.
+- Purchase (agentic checkout): the agent's PSP submits risk signals, then creates an approval token from the `vault_id` + merchant ID. No button.
 
-Where the vault_id comes from. The vaulted flow assumes a billing agreement is already on file. If one is not, there are two ways to create it:
+Where the `vault_id` comes from. The vaulted flow assumes a billing agreement is already on file. If one is not, there are two ways to create it:
 
 - Standalone vaulting, ahead of time — the buyer saves their PayPal wallet in a dedicated save-payment step (or a subscription signup) outside the approval-token flow.
 - Billing-with-purchase, in the same flow — the approval-token create call carries a vaulting flag, so PayPal embeds a billing-agreement token alongside the one-time order token; the buyer approves both in a single PaySheet interaction. After the token is approved and applied to the merchant order, a separate confirm step mints the reusable `vault_id` for future purchases.
 
-Once a vault_id exists, every subsequent purchase uses the buyer-absent path below, no matter which way it was created.
+Once a `vault_id` exists, every subsequent purchase uses the buyer-absent path below, no matter which way it was created.
 
 _Enrollment — save the PayPal wallet (SDK)_
 
@@ -639,18 +639,18 @@ _Body_
 
 _Field Mapping_
 
-| Field                   | Value               | Notes                                                           |
-| ----------------------- | ------------------- | --------------------------------------------------------------- |
-| `payment.instruments[]` | array               | UCP base structure. Send the single selected PayPal instrument. |
-| `instrument.handler_id` | `"paypal"`          | Matches the id in the `com.paypal.payments` handler declaration |
-| `instrument.type`       | `"paypal_wallet"`   | The instrument type this handler produces.                      |
-| `instrument.selected`   | `true`              | The buyer selected PayPal.                                      |
-| `credential.type`       | `"approval_token"`  | Discriminator for the PayPal approval-token credential.         |
-| `credential.token`      | `1AB23456CD789012E` | The approval token.                                             |
+| Field                   | Value               | Notes                                                            |
+| ----------------------- | ------------------- | ---------------------------------------------------------------- |
+| `payment.instruments[]` | array               | UCP base structure. Send the single selected PayPal instrument.  |
+| `instrument.handler_id` | `"paypal"`          | Matches the id in the `com.paypal.payments` handler declaration. |
+| `instrument.type`       | `"paypal_wallet"`   | The instrument type this handler produces.                       |
+| `instrument.selected`   | `true`              | The buyer selected PayPal.                                       |
+| `credential.type`       | `"approval_token"`  | Discriminator for the PayPal approval-token credential.          |
+| `credential.token`      | `1AB23456CD789012E` | The approval token.                                              |
 
 On success, the merchant returns the completed checkout state with an `order_id`.
 
-##### 3.2.2.2 Risk signals and dispute fields
+##### 3.2.2.2 Risk Signals and Dispute Fields
 
 Risk data is submitted via `POST /v3/risk/partner-data`. The response returns the `tracking_id` you pass on to the approval-token create via `PayPal-Client-Metadata-Id` header. Risk signals and dispute fields are part of the PayPal agentic trust framework that enables PayPal Buyer Protection and Seller protection. Please contact your PayPal rep for the risk signal and dispute field set that is best suited for your use case.
 
@@ -804,7 +804,7 @@ Do not transform or re-tokenize it — forward it to the merchant unchanged.
 
 | Field the Agent Sets | Value                                                                              |
 | -------------------- | ---------------------------------------------------------------------------------- |
-| `handler_id`         | `paypal` — the id from the handler declaration (§2)                                |
+| `handler_id`         | `paypal` — the id from the handler declaration                                     |
 | `type`               | `apple_pay`                                                                        |
 | `credential.type`    | `apple_pay_token`                                                                  |
 | `credential.token`   | The encrypted payment token from `PKPaymentToken.paymentData`, forwarded unchanged |
@@ -815,16 +815,20 @@ The agent's job ends here.
 
 You forward the selected instrument's credential into the merchant's checkout session using the standard UCP `/complete` call, as a UCP payment instrument. Send only the single selected instrument.
 
-URL: `POST /checkout-sessions/{id}/complete`
+_Request_
 
-Headers:
+`POST /checkout-sessions/{id}/complete`
+
+_Headers_
 
 ```
 UCP-Agent: profile="https://platform.example/profile"
 Content-Type: application/json
 ```
 
-Request — the credential shape depends on the instrument. Example for card:
+_Body_
+
+The credential shape depends on the instrument. Example for card:
 
 ```json
 {
@@ -866,7 +870,7 @@ On success, the merchant returns the completed checkout state with an `order_id`
 
 ### 3.3 Tokenization Guide
 
-#### Onboarding
+#### 3.3.1 Onboarding
 
 1. Generate an ECDSA P-256 (ecdsa-p256-sha256) key pair.
 
@@ -874,11 +878,11 @@ On success, the merchant returns the completed checkout state with an `order_id`
 
 3. PayPal registers the key and returns a profile URL — you'll send this back on every request in the `UCP-Agent` header.
 
-#### Calling the Tokenization Service
+#### 3.3.2 Calling the Tokenization Service
 
 The PYPL universal tokenizer service authenticates requests using [RFC 9421 HTTP Message Signatures](https://www.rfc-editor.org/info/rfc9421/). Please reference the following documentation to successfully tokenize a credit card.
 
-##### Compose the HTTP Request
+##### 3.3.2.1 Compose the HTTP Request
 
 **Tokenize Request Fields**
 
@@ -917,7 +921,7 @@ The PYPL universal tokenizer service authenticates requests using [RFC 9421 HTTP
 }
 ```
 
-##### Compose the HTTP Message Signature
+##### 3.3.2.2 Compose the HTTP Message Signature
 
 Each request must be signed over these components, in this order:
 
