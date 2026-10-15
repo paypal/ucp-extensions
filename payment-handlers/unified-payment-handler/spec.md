@@ -650,6 +650,10 @@ _Field Mapping_
 
 On success, the merchant returns the completed checkout state with an `order_id`.
 
+##### 3.2.2.2 Risk signals and dispute fields
+
+Risk data is submitted via `POST /v3/risk/partner-data`. The response returns the `tracking_id` you pass on to the approval-token create via `PayPal-Client-Metadata-Id` header. Risk signals and dispute fields are part of the PayPal agentic trust framework that enables PayPal Buyer Protection and Seller protection. Please contact your PayPal rep for the risk signal and dispute field set that is best suited for your use case.
+
 #### 3.2.3 Google Pay
 
 When the buyer selects Google Pay, the agent renders the Google Pay sheet, receives Google's encrypted token, and forwards it on `/complete`.
@@ -925,9 +929,3 @@ Each request must be signed over these components, in this order:
 6. `content-type`
 
 The `content-digest` value is `sha-256=:<base64 SHA-256 digest of the raw request body>:`. The signature parameters (the covered component list, plus `created`, `keyid`, and `alg`) are themselves included as the final line of the signed base, per [RFC 9421](https://www.rfc-editor.org/info/rfc9421/).
-
-## Appendix
-
-**Risk signals (vaulted path)**
-
-Risk data is submitted via `POST /v3/risk/partner-data` as `partner_channel_id`, `tracking_id`, and a `risk_metadata` object (industry code, sender/receiver, partner, device). The response returns the `tracking_id` you pass on the approval-token create via `PayPal-Client-Metadata-Id`. See the PayPal risk API reference for the full field set. Required only on the vaulted/no-button path — the one-time button flow collects this data via the SDK.
