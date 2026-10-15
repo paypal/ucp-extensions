@@ -289,7 +289,7 @@ The card instrument requires tokenization: the agent must never forward a raw PA
 ```
 
 - Restrict the cards you collect to `constraints.brands`. The advertised set is the 13 card brands common to both PayPal Orders v2 and Braintree, so an advertised brand clears regardless of which processor backs the merchant's card instrument.
-- `tokenization: "required"` means you must call `/tokenize` and forward the resulting token — never the card details. See the [tokenization guide](#33-tokenization-guide) for more information.
+- `tokenization: "required"` means you must call `/ucp/v1/tokenize` and forward the resulting token — never the card details. See the [tokenization guide](#33-tokenization-guide) for more information.
 
 #### 3.2.2 PayPal
 
@@ -555,7 +555,7 @@ _Purchase — submit risk signals_
 
 Because there is no button, submit device/session risk metadata first and correlate it with a `tracking_id`.
 
-`POST /v3/risk/partner-data` → returns `{ tracking_id, create_time, update_time }`. Pass that `tracking_id` in the `PayPal-Client-Metadata-Id` header on the approval-token create. (See the Risk Signals appendix for the metadata field set.)
+`POST /v3/risk/partner-data` → returns `{ tracking_id, create_time, update_time }`. Pass that `tracking_id` in the `PayPal-Client-Metadata-Id` header on the approval-token create.
 
 _Purchase — create the approval token from the vault_
 
@@ -624,7 +624,7 @@ _Body_
     "instruments": [
       {
         "id": "pi_paypal_1",
-        "handler_id": "paypal",
+        "handler_id": "unified-paypal-handler",
         "type": "paypal_wallet",
         "selected": true,
         "credential": {
@@ -639,14 +639,14 @@ _Body_
 
 _Field Mapping_
 
-| Field                   | Value               | Notes                                                            |
-| ----------------------- | ------------------- | ---------------------------------------------------------------- |
-| `payment.instruments[]` | array               | UCP base structure. Send the single selected PayPal instrument.  |
-| `instrument.handler_id` | `"paypal"`          | Matches the id in the `com.paypal.payments` handler declaration. |
-| `instrument.type`       | `"paypal_wallet"`   | The instrument type this handler produces.                       |
-| `instrument.selected`   | `true`              | The buyer selected PayPal.                                       |
-| `credential.type`       | `"approval_token"`  | Discriminator for the PayPal approval-token credential.          |
-| `credential.token`      | `1AB23456CD789012E` | The approval token.                                              |
+| Field                   | Value                      | Notes                                                            |
+| ----------------------- | -------------------------- | ---------------------------------------------------------------- |
+| `payment.instruments[]` | array                      | UCP base structure. Send the single selected PayPal instrument.  |
+| `instrument.handler_id` | `"unified-paypal-handler"` | Matches the id in the `com.paypal.payments` handler declaration. |
+| `instrument.type`       | `"paypal_wallet"`          | The instrument type this handler produces.                       |
+| `instrument.selected`   | `true`                     | The buyer selected PayPal.                                       |
+| `credential.type`       | `"approval_token"`         | Discriminator for the PayPal approval-token credential.          |
+| `credential.token`      | `1AB23456CD789012E`        | The approval token.                                              |
 
 On success, the merchant returns the completed checkout state with an `order_id`.
 
@@ -724,7 +724,7 @@ Do not transform or re-tokenize it — forward it to the merchant unchanged.
     "instruments": [
       {
         "id": "instr_1",
-        "handler_id": "paypal",
+        "handler_id": "unified-paypal-handler",
         "type": "google_pay",
         "selected": true,
         "credential": {
@@ -746,7 +746,7 @@ Do not transform or re-tokenize it — forward it to the merchant unchanged.
 
 #### 3.2.4 Apple Pay
 
-When the buyer selects Apple Pay, the agent presents the Apple Pay sheet, receives Apple's encrypted payment token, and forwards it on `/complete`. There is no `/tokenize` call — Apple Pay returns the token directly.
+When the buyer selects Apple Pay, the agent presents the Apple Pay sheet, receives Apple's encrypted payment token, and forwards it on `/complete`. There is no `/ucp/v1/tokenize` call — Apple Pay returns the token directly.
 
 > ⚠️ **Config shape TBD.** The exact shape of the merchant's `apple_pay` instrument config is not finalized — we are waiting on input from platforms before locking it down. The example below is illustrative; treat the field names as provisional.
 
@@ -789,7 +789,7 @@ Do not transform or re-tokenize it — forward it to the merchant unchanged.
     "instruments": [
       {
         "id": "instr_1",
-        "handler_id": "paypal",
+        "handler_id": "unified-paypal-handler",
         "type": "apple_pay",
         "selected": true,
         "credential": {
@@ -836,7 +836,7 @@ The credential shape depends on the instrument. Example for card:
     "instruments": [
       {
         "id": "pi_card_1",
-        "handler_id": "paypal",
+        "handler_id": "unified-paypal-handler",
         "type": "card",
         "selected": true,
         "credential": {
@@ -862,7 +862,7 @@ The credential shape depends on the instrument. Example for card:
 
 | Field                   | Value                                                 | Notes                                                           |
 | ----------------------- | ----------------------------------------------------- | --------------------------------------------------------------- |
-| `instrument.handler_id` | `"paypal"`                                            | Matches the id in the `com.paypal.payments` handler declaration |
+| `instrument.handler_id` | `"unified-paypal-handler"`                            | Matches the id in the `com.paypal.payments` handler declaration |
 | `instrument.type`       | One of `card`, `paypal`, `google_pay`, or `apple_pay` | The instrument the buyer selected                               |
 | `instrument.selected`   | `true`                                                | The buyer selected this instrument                              |
 
@@ -876,11 +876,13 @@ On success, the merchant returns the completed checkout state with an `order_id`
 
 2. Send PayPal your public key and a `key_id` you've assigned to it. **Never send the private key** — PayPal only needs the public half to verify your signatures.
 
-3. PayPal registers the key and returns a profile URL — you'll send this back on every request in the `UCP-Agent` header.
+3. Send PayPal a `profile_url` in the format `https://<agent url>/.well-known/ucp`, you'll send this back on every request in the `UCP-Agent` header
+
+4. PayPal registers the `key_id` and `profile_url`.
 
 #### 3.3.2 Calling the Tokenization Service
 
-The PYPL universal tokenizer service authenticates requests using [RFC 9421 HTTP Message Signatures](https://www.rfc-editor.org/info/rfc9421/). Please reference the following documentation to successfully tokenize a credit card.
+The PYPL unified tokenizer service authenticates requests using [RFC 9421 HTTP Message Signatures](https://www.rfc-editor.org/info/rfc9421/). Please reference the following documentation to successfully tokenize a credit card.
 
 ##### 3.3.2.1 Compose the HTTP Request
 
@@ -900,6 +902,7 @@ The PYPL universal tokenizer service authenticates requests using [RFC 9421 HTTP
 | `credential.eci_value`        | Value to be provided when `credential.card_number_type` = `network_token`                                           |
 | `binding.type`                | `dev.ucp.shopping.checkout`                                                                                         |
 | `binding.id`                  | The checkout session this token is scoped to. Binds the token so it can't be replayed on another checkout           |
+| `identity.access_token`       | The merchant identifier shared with you through the merchant's UCP payment handler configuration                    |
 
 **Example Tokenize Request Object**
 
@@ -907,7 +910,7 @@ The PYPL universal tokenizer service authenticates requests using [RFC 9421 HTTP
 {
   "credential": {
     "type": "card",
-    "card_number_type": "fpan",
+    "card_number_type": "pan",
     "number": "4111111111111111",
     "expiry_month": 4,
     "expiry_year": 2028,
@@ -917,6 +920,9 @@ The PYPL universal tokenizer service authenticates requests using [RFC 9421 HTTP
   "binding": {
     "type": "dev.ucp.shopping.checkout",
     "id": "<checkout_id>"
+  },
+  "identity": {
+    "access_token": "<merchant_id>"
   }
 }
 ```
