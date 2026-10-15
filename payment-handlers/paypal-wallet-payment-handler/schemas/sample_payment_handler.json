@@ -11,7 +11,7 @@
           "schema": "https://developer.paypal.com/ucp/paypal-wallet/schema.json",
           "config": {
             "environment": "production",
-            "paypal_merchant_identifier": "Q7C9N6S4YRQXG"
+            "paypal_merchant_identifier": "<paypal_merchant_id>"
           }
         }
       ]
