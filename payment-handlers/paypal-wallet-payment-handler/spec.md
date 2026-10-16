@@ -1,7 +1,7 @@
 # PayPal Wallet Payment Handler Specification
 
 - **Handler Name:** `com.paypal.wallet`
-- **Version:** `2026-09-22`
+- **Version:** `2026-10-08`
 - **Status:** Draft
 
 > ⚠️ **DRAFT — NOT THE FINAL VERSION.** This specification is a work in progress and is subject to change without notice. Field names, endpoints, flows, and behaviors described here may be modified, renamed, or removed before the final release, and sections marked `TODO` or `TBD` are incomplete. Do not rely on this document for production integrations.
@@ -50,9 +50,9 @@ The configuration object defines the environment and merchant identity. It carri
       "com.paypal.wallet": [
         {
           "id": "paypal-wallet-handler",
-          "version": "2026-09-22",
-          "spec": "https://developer.paypal.com/ucp/paypal-wallet/spec",
-          "schema": "https://developer.paypal.com/ucp/paypal-wallet/schema.json",
+          "version": "2026-10-08",
+          "spec": "<url to this file>",
+          "schema": "<some paypal developer url>/schema.json",
           "config": {
             "environment": "production",
             "paypal_merchant_identifier": "<paypal_merchant_id>"
