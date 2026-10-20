@@ -6,7 +6,7 @@
       "com.paypal.wallet": [
         {
           "id": "paypal-wallet-handler",
-          "version": "2026-09-22",
+          "version": "2026-10-08",
           "spec": "https://developer.paypal.com/ucp/paypal-wallet/spec",
           "schema": "https://developer.paypal.com/ucp/paypal-wallet/schema.json",
           "config": {
