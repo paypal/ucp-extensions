@@ -3,6 +3,40 @@
     "version": "2026-08-25",
     "services": {},
     "payment_handlers": {
+      "com.google.pay": [
+        {
+          "id": "google_pay",
+          "version": "2026-01-23",
+          "spec": "https://pay.google.com/gp/p/ucp/2026-01-23/",
+          "schema": "https://pay.google.com/gp/p/ucp/2026-01-23/schemas/config.json",
+          "config": {
+            "api_version": 2,
+            "api_version_minor": 0,
+            "environment": "PRODUCTION",
+            "merchant_info": {
+              "merchant_name": "Example Merchant",
+              "merchant_id": "<google_pay_merchant_id>",
+              "merchant_origin": "checkout.merchant.com"
+            },
+            "allowed_payment_methods": [
+              {
+                "type": "CARD",
+                "parameters": {
+                  "allowed_auth_methods": ["PAN_ONLY"],
+                  "allowed_card_networks": ["AMEX", "DISCOVER", "JCB", "MASTERCARD", "VISA"]
+                },
+                "tokenization_specification": {
+                  "type": "PAYMENT_GATEWAY",
+                  "parameters": {
+                    "gateway": "paypalppcp",
+                    "gatewayMerchantId": "<paypal_merchant_id>"
+                  }
+                }
+              }
+            ]
+          }
+        }
+      ],
       "com.paypal.payments": [
         {
           "id": "unified-paypal-handler",
@@ -21,35 +55,6 @@
               "type": "paypal",
               "config": {
                 "merchant_id": "<paypal_merchant_id>"
-              }
-            },
-            {
-              "type": "google_pay",
-              "config": {
-                "api_version": 2,
-                "api_version_minor": 0,
-                "environment": "PRODUCTION",
-                "merchant_info": {
-                  "merchant_name": "Example Merchant",
-                  "merchant_id": "<google_pay_merchant_id>",
-                  "merchant_origin": "checkout.merchant.com"
-                },
-                "allowed_payment_methods": [
-                  {
-                    "type": "CARD",
-                    "parameters": {
-                      "allowed_auth_methods": ["PAN_ONLY"],
-                      "allowed_card_networks": ["AMEX", "DISCOVER", "JCB", "MASTERCARD", "VISA"]
-                    },
-                    "tokenization_specification": {
-                      "type": "PAYMENT_GATEWAY",
-                      "parameters": {
-                        "gateway": "paypalppcp",
-                        "gatewayMerchantId": "<paypal_merchant_id>"
-                      }
-                    }
-                  }
-                ]
               }
             },
             {
