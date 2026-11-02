@@ -1,6 +1,6 @@
 {
   "$schema": "https://json-schema.org/draft/2020-12/schema",
-  "$id": "https://payments.paypal.com/ucp/payment-handlers/2026-09-22/paypal_config.json",
+  "$id": "https://payments.paypal.com/ucp/payment-handlers/2026-10-08/paypal_config.json",
   "title": "PayPal Unified Payments — paypal Instrument Config",
   "description": "Per-instrument config for the paypal (PayPal branded wallet) instrument.",
   "type": "object",

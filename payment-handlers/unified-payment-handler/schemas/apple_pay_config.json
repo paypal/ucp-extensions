@@ -1,6 +1,6 @@
 {
   "$schema": "https://json-schema.org/draft/2020-12/schema",
-  "$id": "https://payments.paypal.com/ucp/payment-handlers/2026-09-22/apple_pay_config.json",
+  "$id": "https://payments.paypal.com/ucp/payment-handlers/2026-10-08/apple_pay_config.json",
   "title": "PayPal Unified Payments — apple_pay Instrument Config",
   "description": "Per-instrument config for the apple_pay instrument. ⚠️ Provisional: the exact shape is not finalized — pending platform input. Field names are treated as provisional per the Merchant integration guide §3.4.",
   "type": "object",

@@ -1,6 +1,6 @@
 {
   "$schema": "https://json-schema.org/draft/2020-12/schema",
-  "$id": "https://payments.paypal.com/ucp/payment-handlers/2026-09-22/tokenize_response.json",
+  "$id": "https://payments.paypal.com/ucp/payment-handlers/2026-10-08/tokenize_response.json",
   "title": "PayPal Unified Payments Tokenize Response",
   "description": "Response from the card tokenize endpoint. Carries only the nonce — a single-use token bound to the checkout it was minted for.",
   "type": "object",
