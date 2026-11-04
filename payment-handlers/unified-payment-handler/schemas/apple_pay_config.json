@@ -1,18 +1,69 @@
 {
   "$schema": "https://json-schema.org/draft/2020-12/schema",
-  "$id": "https://payments.paypal.com/ucp/payment-handlers/2026-09-22/apple_pay_config.json",
+  "$id": "https://payments.paypal.com/ucp/payment-handlers/2026-10-08/apple_pay_config.json",
   "title": "PayPal Unified Payments — apple_pay Instrument Config",
   "description": "Per-instrument config for the apple_pay instrument. ⚠️ Provisional: the exact shape is not finalized — pending platform input. Field names are treated as provisional per the Merchant integration guide §3.4.",
   "type": "object",
   "required": [
+    "merchant_display_name",
     "merchant_identifier",
+    "merchant_supports_credit_cards",
+    "merchant_supports_debit_cards",
     "supported_networks"
   ],
   "properties": {
+    "application_data": {
+      "type": "object",
+      "description": "Opaque data the merchant can pass through the payment sheet. It is returned in the payment token header, so the merchant can use it to correlate the payment with its own records.",
+      "additionalProperties": {
+        "type": "string"
+      }
+    },
+    "merchant_category_code": {
+      "type": "string",
+      "pattern": "^[0-9]{4}$",
+      "description": "The merchant's [ISO 18245](https://en.wikipedia.org/wiki/ISO_18245) category code."
+    },
+    "merchant_display_name": {
+      "type": "string",
+      "minLength": 1,
+      "description": "The name that should be displayed by the AI platform on behalf of the merchant."
+    },
     "merchant_identifier": {
       "type": "string",
       "minLength": 1,
       "description": "The merchant's Apple merchant identifier, used by the agent for the PKPaymentRequest and merchant validation. Provisional field name."
+    },
+    "merchant_supports_credit_cards": {
+      "type": "boolean",
+      "description": "Conveys that the merchant can support ApplePay payments backed by a credit card."
+    },
+    "merchant_supports_debit_cards": {
+      "type": "boolean",
+      "description": "Conveys that the merchant can support ApplePay payments backed by a debit card."
+    },
+    "platform_integrator_identifier": {
+      "type": "string",
+      "minLength": 1,
+      "description": "Required for merchants onboarded via Braintree or PayPal Complete Payments"
+    },
+    "required_billing_contact_fields": {
+      "type": "array",
+      "uniqueItems": true,
+      "items": {
+        "type": "string",
+        "enum": ["postalAddress"]
+      },
+      "description": "Billing contact fields the merchant needs from the sheet (Apple accepts only postalAddress here). Collecting these in the sheet helps upstream and express checkout flows, as the buyer doesn't need separate data-entry steps."
+    },
+    "required_shipping_contact_fields": {
+      "type": "array",
+      "uniqueItems": true,
+      "items": {
+        "type": "string",
+        "enum": ["postalAddress", "name", "emailAddress", "phoneNumber"]
+      },
+      "description": "Shipping contact fields the merchant needs (e.g. postalAddress, name, emailAddress, phoneNumber). Collecting these in the sheet helps upstream and express checkout flows, as the buyer doesn't need separate data-entry steps."
     },
     "supported_networks": {
       "type": "array",
@@ -26,7 +77,17 @@
   "additionalProperties": false,
   "examples": [
     {
+      "merchant_display_name": "Acme Inc.",
       "merchant_identifier": "merchant.com.example.store",
+      "merchant_supports_credit_cards": true,
+      "merchant_supports_debit_cards": false,
+      "required_billing_contact_fields": ["postalAddress"],
+      "required_shipping_contact_fields": [
+        "postalAddress",
+        "name",
+        "emailAddress",
+        "phoneNumber"
+      ],
       "supported_networks": ["visa", "mastercard", "amex", "discover"]
     }
   ]

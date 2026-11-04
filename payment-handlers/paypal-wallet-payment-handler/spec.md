@@ -44,7 +44,7 @@ The configuration object defines the environment and merchant identity. It carri
 ```json
 {
   "ucp": {
-    "version": "2026-08-25",
+    "version": "2026-10-08",
     "services": {},
     "payment_handlers": {
       "com.paypal.wallet": [

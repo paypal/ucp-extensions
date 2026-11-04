@@ -1,6 +1,6 @@
 {
   "$schema": "https://json-schema.org/draft/2020-12/schema",
-  "$id": "https://payments.paypal.com/ucp/payment-handlers/2026-09-22/google_pay_instrument.json",
+  "$id": "https://payments.paypal.com/ucp/payment-handlers/2026-10-08/google_pay_instrument.json",
   "title": "PayPal Unified Payments google_pay Instrument",
   "description": "The google_pay instrument forwarded on /complete. Carries the Google Pay ECv2 token, passed through unchanged.",
   "allOf": [
