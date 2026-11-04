@@ -32,7 +32,7 @@ Before publicly exposing their UCP profiles, businesses must complete the follow
 
    Use this value (without the ID # prefix) wherever this guide references `<paypal_merchant_id>`.
 
-4. If they wish to convey that they want to receive Google Pay payments, they will need to retrieve their Google Pay Merchant ID through the Google Pay Business Console. Google Pay is declared in its own `com.google.pay` handler, alongside `com.paypal.payments`. Braintree merchants will also need a Braintree tokenization key (control panel → gear icon → API → Tokenization Keys), used as `braintree:clientKey`.
+4. If they wish to convey that they want to receive Google Pay payments, they will need to retrieve their Google Pay Merchant ID through the Google Pay Business Console.
 
 5. If they wish to convey that they want to receive Apple Pay payments, they will need to retrieve their Apple Pay Merchant Identifier.
 
@@ -52,49 +52,6 @@ The configuration object defines the environment and merchant identity.
 {
   "version": "2026-10-08",
   "payment_handlers": {
-    "com.google.pay": [
-      {
-        "id": "google_pay",
-        "version": "2026-01-23",
-        "spec": "https://pay.google.com/gp/p/ucp/2026-01-23/",
-        "schema": "https://pay.google.com/gp/p/ucp/2026-01-23/schemas/config.json",
-        "config": {
-          "api_version": 2,
-          "api_version_minor": 0,
-          "environment": "PRODUCTION",
-          "merchant_info": {
-            "merchant_name": "Example Merchant",
-            "merchant_id": "<google_pay_merchant_id>",
-            "merchant_origin": "checkout.merchant.com"
-          },
-          "allowed_payment_methods": [
-            {
-              "type": "CARD",
-              "parameters": {
-                "allowed_auth_methods": ["PAN_ONLY"],
-                "allowed_card_networks": [
-                  "AMEX",
-                  "DISCOVER",
-                  "JCB",
-                  "MASTERCARD",
-                  "VISA"
-                ]
-              },
-              "tokenization_specification": {
-                "type": "PAYMENT_GATEWAY",
-                "parameters": {
-                  "gateway": "braintree",
-                  "braintree:apiVersion": "v1",
-                  "braintree:sdkVersion": "<braintree_sdk_version>",
-                  "braintree:merchantId": "<braintree_merchant_id>",
-                  "braintree:clientKey": "<braintree_tokenization_key>"
-                }
-              }
-            }
-          ]
-        }
-      }
-    ],
     "com.paypal.payments": [
       {
         "id": "unified-paypal-handler",
@@ -127,6 +84,41 @@ The configuration object defines the environment and merchant identity.
             "type": "paypal",
             "config": {
               "merchant_id": "<paypal_merchant_id>"
+            }
+          },
+          {
+            "type": "google_pay",
+            "config": {
+              "api_version": 2,
+              "api_version_minor": 0,
+              "environment": "PRODUCTION",
+              "merchant_info": {
+                "merchant_name": "Example Merchant",
+                "merchant_id": "<google_pay_merchant_id>",
+                "merchant_origin": "checkout.merchant.com"
+              },
+              "allowed_payment_methods": [
+                {
+                  "type": "CARD",
+                  "parameters": {
+                    "allowed_auth_methods": ["PAN_ONLY"],
+                    "allowed_card_networks": [
+                      "AMEX",
+                      "DISCOVER",
+                      "JCB",
+                      "MASTERCARD",
+                      "VISA"
+                    ]
+                  },
+                  "tokenization_specification": {
+                    "type": "PAYMENT_GATEWAY",
+                    "parameters": {
+                      "gateway": "braintree",
+                      "gatewayMerchantId": "<braintree_merchant_id>"
+                    }
+                  }
+                }
+              ]
             }
           },
           {
@@ -153,46 +145,6 @@ The configuration object defines the environment and merchant identity.
 {
   "version": "2026-10-08",
   "payment_handlers": {
-    "com.google.pay": [
-      {
-        "id": "google_pay",
-        "version": "2026-01-23",
-        "spec": "https://pay.google.com/gp/p/ucp/2026-01-23/",
-        "schema": "https://pay.google.com/gp/p/ucp/2026-01-23/schemas/config.json",
-        "config": {
-          "api_version": 2,
-          "api_version_minor": 0,
-          "environment": "PRODUCTION",
-          "merchant_info": {
-            "merchant_name": "Example Merchant",
-            "merchant_id": "<google_pay_merchant_id>",
-            "merchant_origin": "checkout.merchant.com"
-          },
-          "allowed_payment_methods": [
-            {
-              "type": "CARD",
-              "parameters": {
-                "allowed_auth_methods": ["PAN_ONLY"],
-                "allowed_card_networks": [
-                  "AMEX",
-                  "DISCOVER",
-                  "JCB",
-                  "MASTERCARD",
-                  "VISA"
-                ]
-              },
-              "tokenization_specification": {
-                "type": "PAYMENT_GATEWAY",
-                "parameters": {
-                  "gateway": "paypalppcp",
-                  "gatewayMerchantId": "<paypal_merchant_id>"
-                }
-              }
-            }
-          ]
-        }
-      }
-    ],
     "com.paypal.payments": [
       {
         "id": "unified-paypal-handler",
@@ -225,6 +177,41 @@ The configuration object defines the environment and merchant identity.
             "type": "paypal",
             "config": {
               "merchant_id": "<paypal_merchant_id>"
+            }
+          },
+          {
+            "type": "google_pay",
+            "config": {
+              "api_version": 2,
+              "api_version_minor": 0,
+              "environment": "PRODUCTION",
+              "merchant_info": {
+                "merchant_name": "Example Merchant",
+                "merchant_id": "<google_pay_merchant_id>",
+                "merchant_origin": "checkout.merchant.com"
+              },
+              "allowed_payment_methods": [
+                {
+                  "type": "CARD",
+                  "parameters": {
+                    "allowed_auth_methods": ["PAN_ONLY"],
+                    "allowed_card_networks": [
+                      "AMEX",
+                      "DISCOVER",
+                      "JCB",
+                      "MASTERCARD",
+                      "VISA"
+                    ]
+                  },
+                  "tokenization_specification": {
+                    "type": "PAYMENT_GATEWAY",
+                    "parameters": {
+                      "gateway": "paypalppcp",
+                      "gatewayMerchantId": "<paypal_merchant_id>"
+                    }
+                  }
+                }
+              ]
             }
           },
           {
@@ -673,14 +660,11 @@ When the buyer selects Google Pay, the agent renders the Google Pay sheet, recei
 
 **1. Read the merchant's `google_pay` config from discovery**
 
-The merchant's `com.google.pay` handler conveys the merchant's Google Pay configuration:
+The merchant's `com.paypal.payments` handler advertises a `google_pay` instrument whose configuration carries the Google Pay parameters the agent needs to build the sheet:
 
 ```json
 {
-  "id": "google_pay",
-  "version": "2026-01-23",
-  "spec": "https://pay.google.com/gp/p/ucp/2026-01-23/",
-  "schema": "https://pay.google.com/gp/p/ucp/2026-01-23/schemas/config.json",
+  "type": "google_pay",
   "config": {
     "api_version": 2,
     "api_version_minor": 0,
@@ -718,24 +702,21 @@ The merchant's `com.google.pay` handler conveys the merchant's Google Pay config
 
 The agent uses these values as-is to construct the Google Pay request — it does not author them. What the agent reads:
 
-| Field the Agent Reads                                  | Used For                                                                                                                                                                                                                          |
-| ------------------------------------------------------ | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| `merchant_info`                                        | Merchant name, ID, and origin shown in the Google Pay sheet                                                                                                                                                                       |
-| `allowed_payment_methods[].parameters`                 | The `allowedAuthMethods` (`PAN_ONLY` only — Google's schema allows no other value for this handler) and `allowedCardNetworks` to pass to Google Pay                                                                               |
-| `allowed_payment_methods[].tokenization_specification` | Passed straight into the sheet's `tokenizationSpecification`. `gateway: "braintree"` makes Google Pay return a Braintree nonce; `gateway: "paypalppcp"` returns an ECv2 token PayPal can capture — the agent does not change this |
+| Field the Agent Reads                                  | Used For                                                                                                                                                                   |
+| ------------------------------------------------------ | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `merchant_info`                                        | Merchant name, ID, and origin shown in the Google Pay sheet                                                                                                                |
+| `allowed_payment_methods[].parameters`                 | The `allowedAuthMethods` (`PAN_ONLY` only — Google's schema allows no other value for this handler) and `allowedCardNetworks` to pass to Google Pay                        |
+| `allowed_payment_methods[].tokenization_specification` | Passed straight into the sheet's `tokenizationSpecification`. `gateway: "paypalppcp"` means the resulting token is one PayPal can capture — the agent does not change this |
 
 **2. Render the Google Pay sheet and get the token**
 
 Build the Google Pay `PaymentDataRequest` from the config above and load the sheet.
 
-On buyer approval, Google Pay returns a `PaymentData` object. What `paymentMethodData.tokenizationData.token` contains depends on the merchant's gateway (`tokenization_specification.parameters.gateway`):
+On buyer approval, Google Pay returns a `PaymentData` object. Read the encrypted token from `paymentMethodData.tokenizationData.token` (a JSON string — Google's ECv2 payload).
 
-- **Braintree** (`"gateway": "braintree"`): a JSON string returned by Braintree. Read the nonce from `androidPayCards[0].nonce` and forward only the nonce.
-- **PPCP** (`"gateway": "paypalppcp"`): a JSON string containing Google's ECv2 payload. Do not transform or re-tokenize it — forward it to the merchant unchanged.
+Do not transform or re-tokenize it — forward it to the merchant unchanged.
 
-**3. Forward the credential on `/complete`**
-
-_Braintree_
+**3. Forward the token on `/complete`**
 
 ```json
 {
@@ -743,33 +724,8 @@ _Braintree_
     "instruments": [
       {
         "id": "instr_1",
-        "handler_id": "google_pay",
-        "selected": true,
-        "credential": {
-          "type": "nonce",
-          "token": "<nonce>"
-        }
-      }
-    ]
-  }
-}
-```
-
-| Field the Agent Sets | Value                                                                        |
-| -------------------- | ---------------------------------------------------------------------------- |
-| `handler_id`         | `google_pay` — the id from the handler declaration                           |
-| `credential.type`    | `nonce`                                                                      |
-| `credential.token`   | The nonce from `androidPayCards[0].nonce` in the Braintree tokenization data |
-
-_PPCP_
-
-```json
-{
-  "payment": {
-    "instruments": [
-      {
-        "id": "instr_1",
-        "handler_id": "google_pay",
+        "handler_id": "unified-paypal-handler",
+        "type": "google_pay",
         "selected": true,
         "credential": {
           "type": "google_pay_token",
@@ -783,7 +739,8 @@ _PPCP_
 
 | Field the Agent Sets | Value                                                                                 |
 | -------------------- | ------------------------------------------------------------------------------------- |
-| `handler_id`         | `google_pay` — the id from the handler declaration                                    |
+| `handler_id`         | `paypal` — the id from the handler declaration                                        |
+| `type`               | `google_pay`                                                                          |
 | `credential.type`    | `google_pay_token`                                                                    |
 | `credential.token`   | The ECv2 payload from `paymentMethodData.tokenizationData.token`, forwarded unchanged |
 
@@ -894,21 +851,20 @@ The credential shape depends on the instrument. Example for card:
 
 **Credential by Instrument Type**
 
-| `instrument.type` | `credential.type` | `credential.token`                                                  |
-| ----------------- | ----------------- | ------------------------------------------------------------------- |
-| `card`            | `nonce`           | Nonce from the PayPal tokenizer                                     |
-| `paypal`          | `approval_token`  | Approval token id                                                   |
-| `apple_pay`       | `apple_pay_token` | Encrypted Apple Pay payment token from `PKPaymentToken.paymentData` |
-
-Google Pay credentials are sent with `handler_id: "google_pay"` instead — see [3.2.3 Google Pay](#323-google-pay).
+| `instrument.type` | `credential.type`  | `credential.token`                                                                    |
+| ----------------- | ------------------ | ------------------------------------------------------------------------------------- |
+| `card`            | `nonce`            | Nonce from the PayPal tokenizer                                                       |
+| `paypal`          | `approval_token`   | Approval token id                                                                     |
+| `google_pay`      | `google_pay_token` | Google Pay ECv2 token from `paymentMethodData.tokenizationData.token`, passed through |
+| `apple_pay`       | `apple_pay_token`  | Encrypted Apple Pay payment token from `PKPaymentToken.paymentData`                   |
 
 **Common Fields**
 
-| Field                   | Value                                   | Notes                                                           |
-| ----------------------- | --------------------------------------- | --------------------------------------------------------------- |
-| `instrument.handler_id` | `"unified-paypal-handler"`              | Matches the id in the `com.paypal.payments` handler declaration |
-| `instrument.type`       | One of `card`, `paypal`, or `apple_pay` | The instrument the buyer selected                               |
-| `instrument.selected`   | `true`                                  | The buyer selected this instrument                              |
+| Field                   | Value                                                 | Notes                                                           |
+| ----------------------- | ----------------------------------------------------- | --------------------------------------------------------------- |
+| `instrument.handler_id` | `"unified-paypal-handler"`                            | Matches the id in the `com.paypal.payments` handler declaration |
+| `instrument.type`       | One of `card`, `paypal`, `google_pay`, or `apple_pay` | The instrument the buyer selected                               |
+| `instrument.selected`   | `true`                                                | The buyer selected this instrument                              |
 
 On success, the merchant returns the completed checkout state with an `order_id`. The merchant's PSP redeems the credential.
 
