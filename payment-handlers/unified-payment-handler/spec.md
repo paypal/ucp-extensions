@@ -770,10 +770,11 @@ The agent uses these values as-is to construct the Apple Pay request — it does
 | --------------------- | -------------------------------------------------------------------------------- |
 | `merchant_identifier` | The Apple merchant identifier for the `PKPaymentRequest` and merchant validation |
 | `supported_networks`  | The card networks to offer in the Apple Pay sheet                                |
+| `supported_countries` | Optional. ISO 3166-1 alpha-2 codes limiting accepted cards to those issued there |
 
 **2. Present the Apple Pay sheet and get the token**
 
-Create the `PKPaymentRequest` / `ApplePayPaymentRequest` with `merchantIdentifier` and `supportedNetworks` from the config above.
+Create the `PKPaymentRequest` / `ApplePayPaymentRequest` with `merchantIdentifier` and `supportedNetworks` from the config above, plus `supportedCountries` when `supported_countries` is present.
 
 Perform merchant validation against `merchant_identifier`.
 
