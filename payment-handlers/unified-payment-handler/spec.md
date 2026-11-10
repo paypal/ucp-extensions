@@ -124,7 +124,11 @@ The configuration object defines the environment and merchant identity.
           {
             "type": "apple_pay",
             "config": {
+              "merchant_display_name": "Acme Inc.",
               "merchant_identifier": "merchant.com.example.store",
+              "merchant_supports_credit_cards": true,
+              "merchant_supports_debit_cards": true,
+              "supported_countries": ["US", "CA"],
               "supported_networks": ["visa", "mastercard", "amex", "discover"]
             }
           }
@@ -217,7 +221,11 @@ The configuration object defines the environment and merchant identity.
           {
             "type": "apple_pay",
             "config": {
+              "merchant_display_name": "Acme Inc.",
               "merchant_identifier": "merchant.com.example.store",
+              "merchant_supports_credit_cards": true,
+              "merchant_supports_debit_cards": true,
+              "supported_countries": ["US", "CA"],
               "supported_networks": ["visa", "mastercard", "amex", "discover"]
             }
           }
@@ -748,8 +756,6 @@ Do not transform or re-tokenize it — forward it to the merchant unchanged.
 
 When the buyer selects Apple Pay, the agent presents the Apple Pay sheet, receives Apple's encrypted payment token, and forwards it on `/complete`. There is no `/ucp/v1/tokenize` call — Apple Pay returns the token directly.
 
-> ⚠️ **Config shape TBD.** The exact shape of the merchant's `apple_pay` instrument config is not finalized — we are waiting on input from platforms before locking it down. The example below is illustrative; treat the field names as provisional.
-
 **1. Read the merchant's `apple_pay` config from discovery**
 
 The merchant's `com.paypal.payments` handler advertises an `apple_pay` instrument whose config carries the Apple Pay parameters the agent needs to build the sheet:
@@ -758,7 +764,11 @@ The merchant's `com.paypal.payments` handler advertises an `apple_pay` instrumen
 {
   "type": "apple_pay",
   "config": {
+    "merchant_display_name": "Acme Inc.",
     "merchant_identifier": "merchant.com.example.store",
+    "merchant_supports_credit_cards": true,
+    "merchant_supports_debit_cards": true,
+    "supported_countries": ["US", "CA"],
     "supported_networks": ["visa", "mastercard", "amex", "discover"]
   }
 }
@@ -766,15 +776,23 @@ The merchant's `com.paypal.payments` handler advertises an `apple_pay` instrumen
 
 The agent uses these values as-is to construct the Apple Pay request — it does not author them (the merchant sets them; see the Merchant guide). What the agent reads:
 
-| Field the Agent Reads | Used For                                                                         |
-| --------------------- | -------------------------------------------------------------------------------- |
-| `merchant_identifier` | The Apple merchant identifier for the `PKPaymentRequest` and merchant validation |
-| `supported_networks`  | The card networks to offer in the Apple Pay sheet                                |
-| `supported_countries` | Optional. ISO 3166-1 alpha-2 codes limiting accepted cards to those issued there |
+| Field the Agent Reads              | Required | Used For                                                                                                                       |
+| ---------------------------------- | -------- | ------------------------------------------------------------------------------------------------------------------------------ |
+| `merchant_display_name`            | Yes      | The merchant name to display in the Apple Pay sheet                                                                            |
+| `merchant_identifier`              | Yes      | The Apple merchant identifier for the `PKPaymentRequest` and merchant validation                                               |
+| `merchant_supports_credit_cards`   | Yes      | Whether to accept Apple Pay payments backed by a credit card                                                                   |
+| `merchant_supports_debit_cards`    | Yes      | Whether to accept Apple Pay payments backed by a debit card                                                                    |
+| `supported_networks`               | Yes      | The card networks to offer in the Apple Pay sheet                                                                              |
+| `supported_countries`              | No       | ISO 3166-1 alpha-2 codes limiting accepted cards to those issued there. When omitted, cards from all countries are accepted    |
+| `required_billing_contact_fields`  | No       | Billing contact fields to collect in the sheet (Apple accepts only `postalAddress`)                                            |
+| `required_shipping_contact_fields` | No       | Shipping contact fields to collect in the sheet (`postalAddress`, `name`, `emailAddress`, `phoneNumber`)                       |
+| `merchant_category_code`           | No       | The merchant's ISO 18245 category code (4 digits)                                                                              |
+| `application_data`                 | No       | Opaque string map the merchant can use to correlate the payment; Apple returns it in the payment token header                  |
+| `platform_integrator_identifier`   | No       | Present for merchants onboarded via Braintree or PayPal Complete Payments                                                      |
 
 **2. Present the Apple Pay sheet and get the token**
 
-Create the `PKPaymentRequest` / `ApplePayPaymentRequest` with `merchantIdentifier` and `supportedNetworks` from the config above, plus `supportedCountries` when `supported_countries` is present.
+Configure the Apple Pay request and sheet using the values from the config above, following Apple's [Apple Pay implementation documentation](https://developer.apple.com/apple-pay/implementation/).
 
 Perform merchant validation against `merchant_identifier`.
 
